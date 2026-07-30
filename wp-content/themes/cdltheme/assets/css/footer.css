@@ -1,0 +1,106 @@
+/**
+ * Rodapé CDL — navy, três colunas, redes sociais.
+ */
+
+.cdl-footer {
+	border-top: 1px solid rgba(255, 255, 255, 0.35);
+	color: #fff;
+}
+
+.cdl-footer .cdl-footer__inner {
+	align-items: center;
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem 2rem;
+	justify-content: space-between;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: var(--wp--style--global--wide-size, 1200px);
+	width: 100%;
+}
+
+.cdl-footer__brand {
+	flex: 0 0 auto;
+}
+
+.cdl-footer__logo {
+	display: inline-block;
+	line-height: 0;
+	margin: 0;
+}
+
+.cdl-footer__logo:focus-visible {
+	outline: 2px solid #fff;
+	outline-offset: 3px;
+}
+
+.cdl-footer__logo img {
+	display: block;
+	filter: brightness(0) invert(1);
+	height: auto;
+	max-width: 180px;
+	width: 100%;
+}
+
+.cdl-footer__copyright {
+	color: #fff;
+	flex: 1 1 220px;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	margin: 0;
+	min-width: min(100%, 280px);
+	opacity: 0.95;
+	text-align: center;
+}
+
+.cdl-footer__social.wp-block-social-links {
+	flex: 0 0 auto;
+	gap: 1.25rem;
+	justify-content: flex-end;
+	margin: 0;
+}
+
+.cdl-footer__social .wp-block-social-link {
+	margin: 0;
+}
+
+.cdl-footer__social .wp-block-social-link-anchor,
+.cdl-footer__social .wp-block-social-link-anchor:visited {
+	color: #fff;
+}
+
+.cdl-footer__social .wp-block-social-link-anchor:hover,
+.cdl-footer__social .wp-block-social-link-anchor:focus {
+	color: #fff;
+	opacity: 0.85;
+}
+
+.cdl-footer__social .wp-block-social-link svg {
+	fill: currentColor;
+	height: 1.25em;
+	width: 1.25em;
+}
+
+@media (max-width: 781px) {
+	.cdl-footer .cdl-footer__inner {
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.cdl-footer__brand {
+		order: 1;
+	}
+
+	.cdl-footer__social.wp-block-social-links {
+		justify-content: center;
+		order: 2;
+	}
+
+	.cdl-footer__copyright {
+		flex: 1 1 auto;
+		order: 3;
+		text-align: center;
+	}
+}

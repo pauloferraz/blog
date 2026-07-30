@@ -1,0 +1,162 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "palette": [
+        {
+          "color": "#f2f0e9",
+          "name": "Bege secção",
+          "slug": "section-beige"
+        },
+        {
+          "color": "#f4efe6",
+          "name": "Bege",
+          "slug": "beige"
+        },
+        {
+          "color": "#ebe4d8",
+          "name": "Bege escuro",
+          "slug": "beige-dark"
+        },
+        {
+          "color": "#1D3A6E",
+          "name": "Azul marinho",
+          "slug": "navy"
+        },
+        {
+          "color": "#4a4a4a",
+          "name": "Cinza texto",
+          "slug": "gray-text"
+        },
+        {
+          "color": "#d8d4cc",
+          "name": "Linha",
+          "slug": "line"
+        },
+        {
+          "color": "#ffffff",
+          "name": "Branco",
+          "slug": "white"
+        },
+        {
+          "color": "#e8edf2",
+          "name": "Secção cinza suave",
+          "slug": "section-soft"
+        },
+        {
+          "color": "#f6f2ea",
+          "name": "Secção papel",
+          "slug": "section-paper"
+        }
+      ]
+    },
+    "layout": {
+      "contentSize": "720px",
+      "wideSize": "1200px"
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+          "name": "Sans",
+          "slug": "sans"
+        },
+        {
+          "fontFamily": "Georgia, \"Times New Roman\", serif",
+          "name": "Serif",
+          "slug": "serif"
+        }
+      ],
+      "fontSizes": [
+        {
+          "name": "Pequeno",
+          "size": "0.875rem",
+          "slug": "small"
+        },
+        {
+          "name": "Médio",
+          "size": "1rem",
+          "slug": "medium"
+        },
+        {
+          "name": "Grande",
+          "size": "1.25rem",
+          "slug": "large"
+        },
+        {
+          "name": "Extra grande",
+          "size": "clamp(1.75rem, 4vw, 2.25rem)",
+          "slug": "x-large"
+        },
+        {
+          "name": "Display",
+          "size": "clamp(2rem, 5vw, 3.25rem)",
+          "slug": "display"
+        }
+      ]
+    },
+    "spacing": {
+      "spacingSizes": [
+        { "name": "20", "size": "0.5rem", "slug": "20" },
+        { "name": "30", "size": "0.75rem", "slug": "30" },
+        { "name": "40", "size": "1rem", "slug": "40" },
+        { "name": "50", "size": "1.5rem", "slug": "50" },
+        { "name": "60", "size": "2rem", "slug": "60" },
+        { "name": "70", "size": "3rem", "slug": "70" }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--beige)",
+      "text": "var(--wp--preset--color--gray-text)"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--sans)",
+      "fontSize": "var(--wp--preset--font-size--medium)"
+    },
+    "elements": {
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--gray-text)"
+        },
+        ":hover": {
+          "color": {
+            "text": "var(--wp--preset--color--navy)"
+          }
+        }
+      },
+      "h1": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--serif)",
+          "fontWeight": "700"
+        },
+        "color": {
+          "text": "var(--wp--preset--color--gray-text)"
+        }
+      },
+      "h2": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--serif)",
+          "fontWeight": "700"
+        }
+      }
+    }
+  },
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Cabeçalho",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Rodapé",
+      "area": "footer"
+    }
+  ]
+}
