@@ -233,7 +233,8 @@
 .cdl-carousel__slide--radio .cdl-carousel__excerpt,
 .cdl-carousel__slide--radio .cdl-carousel__excerpt p {
   -webkit-line-clamp: 3;
-  color: var(--wp--preset--color--gray-text, #666);
+  color: #2B2B2BA3;
+  font-size: 18px;
 }
 
 /* Spotify / YouTube links */
@@ -254,7 +255,7 @@
   color: var(--wp--preset--color--gray-text, #4a4a4a);
   display: inline-flex;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   gap: 0.25em;
   padding: 0.35rem 0;
   margin-right: 24px;
@@ -375,7 +376,7 @@
 }
 
 .cdl-most-read__excerpt {
-  color: #666;
+  color: #777471;
   font-family: var(--wp--preset--font-family--sans);
   font-size: var(--wp--preset--font-size--small);
   grid-column: 2;
