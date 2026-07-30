@@ -5,7 +5,8 @@
  * Uso (com MySQL e WordPress no ar):
  *   php scripts/import-posts.php
  *   php scripts/import-posts.php --dry-run
- *   php scripts/import-posts.php --limit=5
+ *   php scripts/import-posts.php --limit=100
+ *   php scripts/import-posts.php --offset=100 --limit=100
  *   php scripts/import-posts.php --repair-categories
  *   php scripts/import-posts.php --repair-thumbnails
  *
@@ -29,12 +30,13 @@ require_once ABSPATH . 'wp-admin/includes/image.php';
 /**
  * Parse simple CLI flags.
  *
- * @return array{dry_run: bool, limit: int|null, csv: string, repair_categories: bool, repair_thumbnails: bool}
+ * @return array{dry_run: bool, limit: int|null, offset: int, csv: string, repair_categories: bool, repair_thumbnails: bool}
  */
 function cdl_import_parse_args( array $argv ): array {
 	$opts = array(
 		'dry_run'            => false,
 		'limit'              => null,
+		'offset'             => 0,
 		'csv'                => WP_CONTENT_DIR . '/uploads/import/posts.csv',
 		'repair_categories'  => false,
 		'repair_thumbnails'  => false,
@@ -49,6 +51,8 @@ function cdl_import_parse_args( array $argv ): array {
 			$opts['repair_thumbnails'] = true;
 		} elseif ( str_starts_with( $arg, '--limit=' ) ) {
 			$opts['limit'] = max( 1, (int) substr( $arg, 8 ) );
+		} elseif ( str_starts_with( $arg, '--offset=' ) ) {
+			$opts['offset'] = max( 0, (int) substr( $arg, 9 ) );
 		} elseif ( str_starts_with( $arg, '--csv=' ) ) {
 			$opts['csv'] = substr( $arg, 6 );
 		}
@@ -400,14 +404,19 @@ function cdl_import_set_featured_image( int $post_id, string $url, bool $dry_run
 }
 
 $opts = cdl_import_parse_args( $argv );
-$rows = cdl_import_read_csv( $opts['csv'] );
+$all_rows = cdl_import_read_csv( $opts['csv'] );
+$rows     = array_slice( $all_rows, $opts['offset'] );
 
 if ( null !== $opts['limit'] ) {
 	$rows = array_slice( $rows, 0, $opts['limit'] );
 }
 
 cdl_import_log( 'Arquivo: ' . $opts['csv'] );
-cdl_import_log( 'Registros: ' . count( $rows ) );
+cdl_import_log( 'Total no CSV: ' . count( $all_rows ) );
+if ( $opts['offset'] > 0 ) {
+	cdl_import_log( 'Offset: ' . $opts['offset'] );
+}
+cdl_import_log( 'Registros neste lote: ' . count( $rows ) );
 
 if ( $opts['repair_categories'] ) {
 	cdl_import_log( $opts['dry_run'] ? 'Modo: reparo de categorias (dry-run)' : 'Modo: reparo de categorias' );
