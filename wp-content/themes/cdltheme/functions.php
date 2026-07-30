@@ -520,7 +520,7 @@ function cdltheme_get_post_thumbnail_url( ?int $post_id = null, string $size = '
  *
  * @param array<string, mixed> $attr
  */
-function cdltheme_post_thumbnail_html_fallback( string $html, int $post_id, int $post_thumbnail_id, string $size, $attr ): string {
+function cdltheme_post_thumbnail_html_fallback( string $html, int $post_id, int $post_thumbnail_id, string|array $size, $attr ): string {
 	unset( $post_thumbnail_id, $size );
 
 	if ( $html !== '' || 'post' !== get_post_type( $post_id ) || ! is_readable( cdltheme_default_thumbnail_path() ) ) {
@@ -546,7 +546,7 @@ add_filter( 'post_thumbnail_html', 'cdltheme_post_thumbnail_html_fallback', 10, 
 /**
  * @param mixed $thumbnail_url
  */
-function cdltheme_post_thumbnail_url_fallback( $thumbnail_url, int $post_id, string $size ): string {
+function cdltheme_post_thumbnail_url_fallback( $thumbnail_url, int $post_id, string|array $size ): string {
 	unset( $size );
 
 	if ( is_string( $thumbnail_url ) && $thumbnail_url !== '' ) {
