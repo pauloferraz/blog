@@ -561,6 +561,220 @@ function cdltheme_post_thumbnail_url_fallback( $thumbnail_url, int $post_id, str
 }
 add_filter( 'post_thumbnail_url', 'cdltheme_post_thumbnail_url_fallback', 10, 3 );
 
+/**
+ * Patterns PHP do tema que devem ser renderizados dinamicamente (ignoram snapshot do editor).
+ *
+ * @return string[] Slugs completos, ex.: cdltheme/cdl-home-most-read.
+ */
+function cdltheme_dynamic_pattern_slugs(): array {
+	return array(
+		'cdltheme/cdl-header',
+		'cdltheme/cdl-home-most-read',
+		'cdltheme/cdl-home-latest-carousel',
+		'cdltheme/cdl-home-selections-carousel',
+		'cdltheme/cdl-home-radio-carousel',
+		'cdltheme/cdl-footer',
+	);
+}
+
+/**
+ * Renderiza um pattern PHP do tema via do_blocks().
+ *
+ * @param string $slug Slug completo do pattern.
+ */
+function cdltheme_render_pattern_from_file( string $slug ): ?string {
+	if ( ! in_array( $slug, cdltheme_dynamic_pattern_slugs(), true ) ) {
+		return null;
+	}
+
+	$short = str_contains( $slug, '/' ) ? substr( $slug, strrpos( $slug, '/' ) + 1 ) : $slug;
+	$file  = get_theme_file_path( 'patterns/' . $short . '.php' );
+
+	if ( ! is_readable( $file ) ) {
+		return null;
+	}
+
+	ob_start();
+	include $file;
+	$markup = ob_get_clean();
+
+	if ( ! is_string( $markup ) || '' === trim( $markup ) ) {
+		return null;
+	}
+
+	return do_blocks( $markup );
+}
+
+/**
+ * Força patterns dinâmicos a renderizar a partir dos arquivos PHP do tema.
+ *
+ * @param string|null $pre_render   HTML pré-renderizado ou null.
+ * @param array       $parsed_block Bloco parseado.
+ */
+function cdltheme_pre_render_dynamic_pattern( $pre_render, array $parsed_block ) {
+	if ( null !== $pre_render ) {
+		return $pre_render;
+	}
+
+	if ( ( $parsed_block['blockName'] ?? '' ) !== 'core/pattern' ) {
+		return $pre_render;
+	}
+
+	$slug = (string) ( $parsed_block['attrs']['slug'] ?? '' );
+	if ( '' === $slug ) {
+		return $pre_render;
+	}
+
+	$html = cdltheme_render_pattern_from_file( $slug );
+
+	return null !== $html ? $html : $pre_render;
+}
+add_filter( 'pre_render_block', 'cdltheme_pre_render_dynamic_pattern', 9, 2 );
+
+/**
+ * Usa o arquivo do tema para templates de home customizados no banco (evita HTML congelado).
+ *
+ * @param WP_Block_Template|null $block_template Template encontrado.
+ * @param string                 $id             ID do template.
+ * @param string                 $template_type  Tipo.
+ */
+function cdltheme_pre_get_theme_file_home_template( $block_template, string $id, string $template_type ) {
+	if ( null !== $block_template ) {
+		return $block_template;
+	}
+
+	if ( 'wp_template' !== $template_type ) {
+		return $block_template;
+	}
+
+	$parts = explode( '//', $id, 2 );
+	if ( count( $parts ) < 2 || $parts[0] !== get_stylesheet() ) {
+		return $block_template;
+	}
+
+	if ( ! in_array( $parts[1], array( 'front-page', 'home' ), true ) ) {
+		return $block_template;
+	}
+
+	$file_template = get_block_file_template( $id, $template_type );
+	if ( ! $file_template instanceof WP_Block_Template || empty( $file_template->content ) ) {
+		return $block_template;
+	}
+
+	$db_query = new WP_Query(
+		array(
+			'post_name__in'  => array( $parts[1] ),
+			'post_type'      => $template_type,
+			'post_status'    => array( 'auto-draft', 'draft', 'publish', 'trash' ),
+			'posts_per_page' => 1,
+			'no_found_rows'  => true,
+			'tax_query'      => array(
+				array(
+					'taxonomy' => 'wp_theme',
+					'field'    => 'name',
+					'terms'    => get_stylesheet(),
+				),
+			),
+		)
+	);
+
+	if ( ! $db_query->have_posts() ) {
+		return $block_template;
+	}
+
+	return $file_template;
+}
+add_filter( 'pre_get_block_template', 'cdltheme_pre_get_theme_file_home_template', 10, 3 );
+
+/**
+ * Substitui templates de home customizados no banco pela versão do tema (resolve_block_template).
+ *
+ * @param WP_Block_Template[] $query_result Templates encontrados.
+ * @param array               $query        Args da consulta.
+ * @param string              $template_type Tipo.
+ * @return WP_Block_Template[]
+ */
+function cdltheme_filter_block_templates_prefer_theme_home( array $query_result, array $query, string $template_type ): array {
+	if ( 'wp_template' !== $template_type ) {
+		return $query_result;
+	}
+
+	$forced_slugs = array( 'front-page', 'home' );
+
+	foreach ( $query_result as $index => $template ) {
+		if ( ! $template instanceof WP_Block_Template ) {
+			continue;
+		}
+
+		if ( $template->theme !== get_stylesheet() ) {
+			continue;
+		}
+
+		if ( ! in_array( $template->slug, $forced_slugs, true ) ) {
+			continue;
+		}
+
+		if ( 'custom' !== ( $template->source ?? '' ) ) {
+			continue;
+		}
+
+		$file_template = get_block_file_template(
+			$template->theme . '//' . $template->slug,
+			$template_type
+		);
+
+		if ( $file_template instanceof WP_Block_Template && ! empty( $file_template->content ) ) {
+			$query_result[ $index ] = $file_template;
+		}
+	}
+
+	return $query_result;
+}
+add_filter( 'get_block_templates', 'cdltheme_filter_block_templates_prefer_theme_home', 10, 3 );
+
+/**
+ * Renderiza o cabeçalho sempre a partir do pattern do tema (ignora customização no editor).
+ *
+ * @param string|null $pre_render   HTML pré-renderizado ou null.
+ * @param array       $parsed_block Bloco parseado.
+ */
+function cdltheme_pre_render_header_template_part( $pre_render, array $parsed_block ) {
+	if ( null !== $pre_render ) {
+		return $pre_render;
+	}
+
+	if ( ( $parsed_block['blockName'] ?? '' ) !== 'core/template-part' ) {
+		return $pre_render;
+	}
+
+	if ( ( $parsed_block['attrs']['slug'] ?? '' ) !== 'header' ) {
+		return $pre_render;
+	}
+
+	$theme = $parsed_block['attrs']['theme'] ?? wp_get_theme()->get_stylesheet();
+	if ( $theme !== wp_get_theme()->get_stylesheet() ) {
+		return $pre_render;
+	}
+
+	$html = cdltheme_render_pattern_from_file( 'cdltheme/cdl-header' );
+	if ( null === $html ) {
+		return $pre_render;
+	}
+
+	$tag = $parsed_block['attrs']['tagName'] ?? 'header';
+	$tag = tag_escape( $tag );
+	if ( '' === $tag ) {
+		$tag = 'header';
+	}
+
+	return sprintf(
+		'<%1$s class="wp-block-template-part">%2$s</%1$s>',
+		$tag,
+		$html
+	);
+}
+add_filter( 'pre_render_block', 'cdltheme_pre_render_header_template_part', 10, 2 );
+
 add_action(
 	'after_setup_theme',
 	static function (): void {
@@ -591,6 +805,13 @@ add_action(
 			get_theme_file_uri( 'assets/css/footer.css' ),
 			array( 'cdltheme-header' ),
 			$ver
+		);
+		wp_enqueue_script(
+			'cdltheme-header-drawer',
+			get_theme_file_uri( 'assets/js/header-drawer.js' ),
+			array(),
+			$ver,
+			true
 		);
 
 		if ( is_front_page() || is_home() ) {
