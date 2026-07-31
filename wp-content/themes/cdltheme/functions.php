@@ -562,6 +562,66 @@ function cdltheme_post_thumbnail_url_fallback( $thumbnail_url, int $post_id, str
 add_filter( 'post_thumbnail_url', 'cdltheme_post_thumbnail_url_fallback', 10, 3 );
 
 /**
+ * Busca a URL de um bloco core/image pelo className dentro de uma árvore de blocos.
+ *
+ * @param array  $blocks    Blocos parseados.
+ * @param string $class_name Classe CSS do bloco de imagem.
+ */
+function cdltheme_find_block_image_url_by_class( array $blocks, string $class_name ): ?string {
+	foreach ( $blocks as $block ) {
+		if ( ( $block['blockName'] ?? '' ) === 'core/image' ) {
+			$block_class = (string) ( $block['attrs']['className'] ?? '' );
+			if ( str_contains( $block_class, $class_name ) ) {
+				if ( ! empty( $block['attrs']['url'] ) ) {
+					return (string) $block['attrs']['url'];
+				}
+
+				if ( ! empty( $block['attrs']['id'] ) ) {
+					$url = wp_get_attachment_image_url( (int) $block['attrs']['id'], 'full' );
+					if ( $url ) {
+						return $url;
+					}
+				}
+
+				$inner_html = (string) ( $block['innerHTML'] ?? '' );
+				if ( preg_match( '/\bsrc=["\']([^"\']+)["\']/', $inner_html, $matches ) ) {
+					return html_entity_decode( $matches[1], ENT_QUOTES, 'UTF-8' );
+				}
+			}
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) ) {
+			$url = cdltheme_find_block_image_url_by_class( $block['innerBlocks'], $class_name );
+			if ( null !== $url ) {
+				return $url;
+			}
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Lê imagem editável do template part header salvo no editor (quando existir).
+ *
+ * @param string $class_name Classe CSS do bloco de imagem.
+ * @param string $fallback   URL padrão do tema.
+ */
+function cdltheme_get_header_image_url( string $class_name, string $fallback ): string {
+	$template = get_block_template( get_stylesheet() . '//header', 'wp_template_part' );
+	if ( ! $template instanceof WP_Block_Template || empty( $template->content ) ) {
+		return $fallback;
+	}
+
+	$url = cdltheme_find_block_image_url_by_class( parse_blocks( $template->content ), $class_name );
+	if ( null === $url || '' === $url ) {
+		return $fallback;
+	}
+
+	return esc_url( $url );
+}
+
+/**
  * Patterns PHP do tema que devem ser renderizados dinamicamente (ignoram snapshot do editor).
  *
  * @return string[] Slugs completos, ex.: cdltheme/cdl-home-most-read.
@@ -785,6 +845,7 @@ add_action(
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
+		add_editor_style( 'assets/css/fonts.css' );
 		add_editor_style( 'assets/css/editor-style.css' );
 		add_editor_style( 'assets/css/home.css' );
 	}
@@ -795,9 +856,15 @@ add_action(
 	static function (): void {
 		$ver = wp_get_theme()->get( 'Version' );
 		wp_enqueue_style(
+			'cdltheme-fonts',
+			get_theme_file_uri( 'assets/css/fonts.css' ),
+			array(),
+			$ver
+		);
+		wp_enqueue_style(
 			'cdltheme-header',
 			get_theme_file_uri( 'assets/css/header.css' ),
-			array(),
+			array( 'cdltheme-fonts' ),
 			$ver
 		);
 		wp_enqueue_style(

@@ -9,8 +9,9 @@
  * @package cdltheme
  */
 
-$logo_url   = esc_url( get_theme_file_uri( 'assets/logo-cdl.png' ) );
-$home_url   = esc_url( home_url( '/' ) );
+$logo_url     = esc_url( get_theme_file_uri( 'assets/logo-cdl.png' ) );
+$nav_icon_url = cdltheme_get_header_image_url( 'cdl-header__nav-icon', $logo_url );
+$home_url     = esc_url( home_url( '/' ) );
 $u_listas   = cdltheme_category_link( 'listas' );
 $u_entrev   = cdltheme_category_link( 'entrevistas' );
 $u_infantil = cdltheme_category_link( 'infantil' );
@@ -125,7 +126,7 @@ $nav_items = array(
 				<!-- wp:group {"className":"cdl-header__external cdl-header__external--cdl","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
 				<div class="wp-block-group cdl-header__external cdl-header__external--cdl">
 					<!-- wp:image {"sizeSlug":"full","linkDestination":"none","width":"22px","className":"cdl-header__nav-icon"} -->
-					<figure class="wp-block-image size-full is-resized cdl-header__nav-icon"><img src="<?php echo esc_url( $logo_url ); ?>" alt="" style="width:22px" decoding="async" /></figure>
+					<figure class="wp-block-image size-full is-resized cdl-header__nav-icon"><img src="<?php echo esc_url( $nav_icon_url ); ?>" alt="" decoding="async" /></figure>
 					<!-- /wp:image -->
 					<!-- wp:paragraph -->
 					<p><a href="<?php echo esc_url( $u_cdl ); ?>"><?php echo esc_html__( 'Companhia das Letras', 'cdltheme' ); ?></a></p>
