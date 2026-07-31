@@ -12,23 +12,25 @@
 $logo_url     = esc_url( get_theme_file_uri( 'assets/logo-cdl.png' ) );
 $nav_icon_url = cdltheme_get_header_image_url( 'cdl-header__nav-icon', $logo_url );
 $home_url     = esc_url( home_url( '/' ) );
-$u_listas   = cdltheme_category_link( 'listas' );
-$u_entrev   = cdltheme_category_link( 'entrevistas' );
-$u_infantil = cdltheme_category_link( 'infantil' );
+$u_artigos  = cdltheme_category_link( 'artigos' );
 $u_eventos  = cdltheme_category_link( 'eventos' );
+$u_infantil = cdltheme_category_link( 'infantil' );
+$u_listas   = cdltheme_category_link( 'listas' );
+$u_noticias = cdltheme_category_link( 'noticias' );
+$u_radio    = cdltheme_category_link( 'radio-companhia' );
 $u_cdl      = esc_url( cdltheme_url_companhia() );
 $u_edu      = esc_url( cdltheme_url_educacao() );
 
 $nav_items = array(
 	array(
-		'label'       => _x( 'Listas', 'category nav', 'cdltheme' ),
-		'url'         => $u_listas,
+		'label'       => _x( 'Artigos', 'category nav', 'cdltheme' ),
+		'url'         => $u_artigos,
 		'desktop'     => true,
 		'mobile_only' => false,
 	),
 	array(
-		'label'       => _x( 'Entrevistas', 'category nav', 'cdltheme' ),
-		'url'         => $u_entrev,
+		'label'       => _x( 'Eventos', 'category nav', 'cdltheme' ),
+		'url'         => $u_eventos,
 		'desktop'     => true,
 		'mobile_only' => false,
 	),
@@ -39,8 +41,20 @@ $nav_items = array(
 		'mobile_only' => false,
 	),
 	array(
-		'label'       => _x( 'Eventos', 'category nav', 'cdltheme' ),
-		'url'         => $u_eventos,
+		'label'       => _x( 'Listas', 'category nav', 'cdltheme' ),
+		'url'         => $u_listas,
+		'desktop'     => true,
+		'mobile_only' => false,
+	),
+	array(
+		'label'       => _x( 'Notícias', 'category nav', 'cdltheme' ),
+		'url'         => $u_noticias,
+		'desktop'     => true,
+		'mobile_only' => false,
+	),
+	array(
+		'label'       => _x( 'Rádio Companhia', 'category nav', 'cdltheme' ),
+		'url'         => $u_radio,
 		'desktop'     => true,
 		'mobile_only' => false,
 	),
