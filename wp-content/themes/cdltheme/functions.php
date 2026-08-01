@@ -144,6 +144,38 @@ function cdltheme_track_post_views(): void {
 add_action( 'template_redirect', 'cdltheme_track_post_views' );
 
 /**
+ * Verifica se um post pode aparecer em "Mais lidas".
+ *
+ * @param int $post_id ID do post.
+ */
+function cdltheme_is_valid_most_read_post( int $post_id ): bool {
+	if ( $post_id <= 0 ) {
+		return false;
+	}
+
+	$post = get_post( $post_id );
+	if ( ! $post instanceof WP_Post || 'post' !== $post->post_type || 'publish' !== $post->post_status ) {
+		return false;
+	}
+
+	return '' !== trim( get_the_title( $post ) );
+}
+
+/**
+ * Remove contagem de visualizações quando o post é excluído permanentemente.
+ *
+ * @param int $post_id ID do post.
+ */
+function cdltheme_cleanup_post_views_meta( int $post_id ): void {
+	if ( 'post' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	delete_post_meta( $post_id, cdltheme_post_views_meta_key() );
+}
+add_action( 'before_delete_post', 'cdltheme_cleanup_post_views_meta' );
+
+/**
  * IDs dos N posts com mais visualizações; completa com posts recentes se faltar.
  *
  * @param int $count Quantidade desejada.
@@ -152,10 +184,11 @@ add_action( 'template_redirect', 'cdltheme_track_post_views' );
 function cdltheme_get_most_read_post_ids( int $count = 5 ): array {
 	$count = max( 1, $count );
 	$key   = cdltheme_post_views_meta_key();
+	$ids   = array();
 
 	$q = new WP_Query(
 		array(
-			'posts_per_page'      => $count,
+			'posts_per_page'      => $count * 3,
 			'post_type'           => 'post',
 			'post_status'         => 'publish',
 			'fields'              => 'ids',
@@ -163,15 +196,25 @@ function cdltheme_get_most_read_post_ids( int $count = 5 ): array {
 			'meta_key'            => $key,
 			'orderby'             => 'meta_value_num',
 			'order'               => 'DESC',
+			'meta_compare'        => 'EXISTS',
 		)
 	);
 
-	$ids = array_map( 'intval', $q->posts );
+	foreach ( array_map( 'intval', $q->posts ) as $post_id ) {
+		if ( ! cdltheme_is_valid_most_read_post( $post_id ) ) {
+			continue;
+		}
+
+		$ids[] = $post_id;
+		if ( count( $ids ) >= $count ) {
+			break;
+		}
+	}
 
 	if ( count( $ids ) < $count ) {
 		$fill = new WP_Query(
 			array(
-				'posts_per_page'      => $count - count( $ids ),
+				'posts_per_page'      => $count * 2,
 				'post_type'           => 'post',
 				'post_status'         => 'publish',
 				'post__not_in'        => $ids,
@@ -181,11 +224,216 @@ function cdltheme_get_most_read_post_ids( int $count = 5 ): array {
 				'order'               => 'DESC',
 			)
 		);
-		$ids = array_merge( $ids, array_map( 'intval', $fill->posts ) );
+
+		foreach ( array_map( 'intval', $fill->posts ) as $post_id ) {
+			if ( ! cdltheme_is_valid_most_read_post( $post_id ) || in_array( $post_id, $ids, true ) ) {
+				continue;
+			}
+
+			$ids[] = $post_id;
+			if ( count( $ids ) >= $count ) {
+				break;
+			}
+		}
 	}
 
 	return array_slice( $ids, 0, $count );
 }
+
+/**
+ * Posts publicados para a seção "Mais lidas".
+ *
+ * @param int $count Quantidade desejada.
+ * @return WP_Post[]
+ */
+function cdltheme_get_most_read_posts( int $count = 5 ): array {
+	$ids = cdltheme_get_most_read_post_ids( $count );
+	if ( ! $ids ) {
+		return array();
+	}
+
+	$posts = get_posts(
+		array(
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'post__in'            => $ids,
+			'orderby'             => 'post__in',
+			'posts_per_page'      => $count,
+			'ignore_sticky_posts' => true,
+		)
+	);
+
+	return array_values(
+		array_filter(
+			$posts,
+			static function ( $post ): bool {
+				return $post instanceof WP_Post && cdltheme_is_valid_most_read_post( (int) $post->ID );
+			}
+		)
+	);
+}
+
+/**
+ * HTML da seção "Mais lidas" da home.
+ */
+function cdltheme_render_most_read_section(): string {
+	$posts = cdltheme_get_most_read_posts( 5 );
+
+	ob_start();
+	?>
+<div class="wp-block-group alignfull cdl-most-read has-section-beige-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--50)">
+	<div class="wp-block-group alignwide cdl-most-read__inner">
+		<div class="cdl-most-read__header">
+			<h2 class="cdl-most-read__heading"><?php esc_html_e( 'Mais lidas', 'cdltheme' ); ?></h2>
+			<div class="cdl-most-read__intro">
+				<p><?php esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'cdltheme' ); ?></p>
+				<p><?php esc_html_e( 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.', 'cdltheme' ); ?></p>
+			</div>
+		</div>
+
+		<?php if ( $posts ) : ?>
+			<div class="cdl-most-read__list">
+				<?php
+				foreach ( $posts as $index => $post_obj ) :
+					$num     = str_pad( (string) ( $index + 1 ), 2, '0', STR_PAD_LEFT );
+					$title   = get_the_title( $post_obj );
+					$link    = get_permalink( $post_obj );
+					$raw_ex  = get_the_excerpt( $post_obj );
+					if ( '' === trim( $raw_ex ) ) {
+						$raw_ex = wp_trim_words( wp_strip_all_tags( $post_obj->post_content ), 28, '…' );
+					}
+					$excerpt = wp_trim_words( $raw_ex, 32, '…' );
+					?>
+					<article class="cdl-most-read__item">
+						<div class="cdl-most-read__row">
+							<span class="cdl-most-read__num" aria-hidden="true"><?php echo esc_html( $num ); ?></span>
+							<h3 class="cdl-most-read__title">
+								<a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $title ); ?></a>
+							</h3>
+						</div>
+						<p class="cdl-most-read__excerpt"><?php echo esc_html( $excerpt ); ?></p>
+					</article>
+					<?php
+				endforeach;
+				?>
+			</div>
+		<?php else : ?>
+			<p class="cdl-most-read__empty"><?php esc_html_e( 'Nenhum post publicado ainda.', 'cdltheme' ); ?></p>
+		<?php endif; ?>
+	</div>
+</div>
+	<?php
+	$html = ob_get_clean();
+
+	return is_string( $html ) ? $html : '';
+}
+
+/**
+ * Renderiza "Mais lidas" sempre com dados atuais (ignora snapshot salvo no editor).
+ *
+ * @param string|null $pre_render   HTML pré-renderizado ou null.
+ * @param array       $parsed_block Bloco parseado.
+ */
+function cdltheme_pre_render_most_read_group( $pre_render, array $parsed_block ) {
+	if ( null !== $pre_render ) {
+		return $pre_render;
+	}
+
+	if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return $pre_render;
+	}
+
+	if ( ( $parsed_block['blockName'] ?? '' ) !== 'core/group' ) {
+		return $pre_render;
+	}
+
+	$class = (string) ( $parsed_block['attrs']['className'] ?? '' );
+	if ( ! preg_match( '/\bcdl-most-read\b/', $class ) ) {
+		return $pre_render;
+	}
+
+	return cdltheme_render_most_read_section();
+}
+add_filter( 'pre_render_block', 'cdltheme_pre_render_most_read_group', 8, 2 );
+
+/**
+ * Garante o bloco "Mais lidas" nos templates de home (tema ou customizado no editor).
+ *
+ * @param string $content Conteúdo do template.
+ */
+function cdltheme_ensure_most_read_in_home_template_content( string $content ): string {
+	if ( str_contains( $content, 'cdl-home-most-read' ) || str_contains( $content, 'cdl-most-read' ) ) {
+		return $content;
+	}
+
+	$pattern = "\n\t<!-- wp:pattern {\"slug\":\"cdltheme/cdl-home-most-read\"} /-->";
+	$updated = preg_replace( '/(\s*<\/main>\s*<!-- \/wp:group -->)/', $pattern . '$1', $content, 1, $count );
+
+	if ( $count > 0 ) {
+		return is_string( $updated ) ? $updated : $content;
+	}
+
+	$updated = preg_replace( '/(\s*<!-- wp:template-part \{"slug":"footer")/', $pattern . '$1', $content, 1, $count );
+
+	return ( $count > 0 && is_string( $updated ) ) ? $updated : $content . $pattern;
+}
+
+/**
+ * Injeta "Mais lidas" ao carregar templates de home sem a seção.
+ *
+ * @param WP_Block_Template|null $block_template Template encontrado.
+ * @param string                 $id             ID do template.
+ * @param string                 $template_type  Tipo.
+ */
+function cdltheme_filter_home_template_most_read( $block_template, string $id, string $template_type ) {
+	if ( 'wp_template' !== $template_type || ! $block_template instanceof WP_Block_Template ) {
+		return $block_template;
+	}
+
+	if ( ! in_array( $block_template->slug, array( 'front-page', 'home' ), true ) ) {
+		return $block_template;
+	}
+
+	if ( empty( $block_template->content ) ) {
+		return $block_template;
+	}
+
+	$block_template->content = cdltheme_ensure_most_read_in_home_template_content( $block_template->content );
+
+	return $block_template;
+}
+add_filter( 'get_block_template', 'cdltheme_filter_home_template_most_read', 20, 3 );
+
+/**
+ * Fallback no front: acrescenta "Mais lidas" ao <main> da home se ainda faltar.
+ *
+ * @param string $content HTML renderizado do bloco.
+ * @param array  $block   Definição do bloco.
+ */
+function cdltheme_append_most_read_to_home_main( string $content, array $block ): string {
+	if ( ( $block['blockName'] ?? '' ) !== 'core/group' ) {
+		return $content;
+	}
+
+	if ( ( $block['attrs']['tagName'] ?? '' ) !== 'main' ) {
+		return $content;
+	}
+
+	if ( ! is_front_page() && ! ( is_home() && ! is_front_page() ) ) {
+		return $content;
+	}
+
+	if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return $content;
+	}
+
+	if ( str_contains( $content, 'cdl-most-read' ) ) {
+		return $content;
+	}
+
+	return $content . cdltheme_render_most_read_section();
+}
+add_filter( 'render_block', 'cdltheme_append_most_read_to_home_main', 10, 2 );
 
 /**
  * Regista tipos de conteúdo personalizados dos carrosséis (Seleções e Rádio).
@@ -645,6 +893,11 @@ function cdltheme_dynamic_pattern_slugs(): array {
 function cdltheme_render_pattern_from_file( string $slug ): ?string {
 	if ( ! in_array( $slug, cdltheme_dynamic_pattern_slugs(), true ) ) {
 		return null;
+	}
+
+	if ( 'cdltheme/cdl-home-most-read' === $slug ) {
+		$html = cdltheme_render_most_read_section();
+		return '' !== $html ? $html : null;
 	}
 
 	$short = str_contains( $slug, '/' ) ? substr( $slug, strrpos( $slug, '/' ) + 1 ) : $slug;

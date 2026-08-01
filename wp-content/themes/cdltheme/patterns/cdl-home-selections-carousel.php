@@ -12,8 +12,8 @@
 $selections_pt     = cdltheme_post_type_company_selections();
 $selections_list = cdltheme_post_type_archive_url( $selections_pt );
 ?>
-<!-- wp:group {"align":"full","className":"cdl-carousel-section cdl-selections-carousel","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"backgroundColor":"section-soft","layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull cdl-carousel-section cdl-selections-carousel has-section-soft-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--50)">
+<!-- wp:group {"align":"full","className":"cdl-carousel-section cdl-selections-carousel","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"backgroundColor":"section-selections","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignfull cdl-carousel-section cdl-selections-carousel has-section-selections-background-color has-background" style="padding-top:var(--wp--preset--spacing--70);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--70);padding-left:var(--wp--preset--spacing--50)">
 	<!-- wp:group {"align":"wide","className":"cdl-latest-carousel__header","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"top"},"style":{"spacing":{"blockGap":"var:preset|spacing|50","margin":{"bottom":"var:preset|spacing|60"}}}} -->
 	<div class="wp-block-group alignwide cdl-latest-carousel__header" style="margin-bottom:var(--wp--preset--spacing--60)">
 		<!-- wp:heading {"level":2,"fontFamily":"serif","fontSize":"x-large","style":{"typography":{"fontWeight":"700","lineHeight":"1.2"}},"textColor":"gray-text"} -->

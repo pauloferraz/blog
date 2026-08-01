@@ -36,6 +36,12 @@
   }
 }
 
+/* —— Seleções da Companhia —— */
+.cdl-selections-carousel.has-section-selections-background-color,
+.cdl-selections-carousel {
+  background-color: #eae0d3;
+}
+
 /* —— Últimos posts: cabeçalho —— */
 .cdl-latest-carousel__header {
   width: 100%;

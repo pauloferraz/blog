@@ -48,6 +48,11 @@
           "slug": "section-soft"
         },
         {
+          "color": "#EAE0D3",
+          "name": "Secção seleções",
+          "slug": "section-selections"
+        },
+        {
           "color": "#f6f2ea",
           "name": "Secção papel",
           "slug": "section-paper"
