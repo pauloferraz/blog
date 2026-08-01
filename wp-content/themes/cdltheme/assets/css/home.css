@@ -38,8 +38,9 @@
 
 /* —— Seleções da Companhia —— */
 .cdl-selections-carousel.has-section-selections-background-color,
+.cdl-selections-carousel.has-section-soft-background-color,
 .cdl-selections-carousel {
-  background-color: #eae0d3;
+  background-color: #eae0d3 !important;
 }
 
 /* —— Últimos posts: cabeçalho —— */

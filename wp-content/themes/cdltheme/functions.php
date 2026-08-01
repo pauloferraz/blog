@@ -1001,6 +1001,7 @@ add_action(
 		add_editor_style( 'assets/css/editor-style.css' );
 		add_editor_style( 'assets/css/home.css' );
 		add_editor_style( 'assets/css/archive.css' );
+		add_editor_style( 'assets/css/content.css' );
 	}
 );
 
@@ -1024,6 +1025,12 @@ add_action(
 			'cdltheme-footer',
 			get_theme_file_uri( 'assets/css/footer.css' ),
 			array( 'cdltheme-header' ),
+			$ver
+		);
+		wp_enqueue_style(
+			'cdltheme-content',
+			get_theme_file_uri( 'assets/css/content.css' ),
+			array( 'cdltheme-footer' ),
 			$ver
 		);
 		wp_enqueue_script(

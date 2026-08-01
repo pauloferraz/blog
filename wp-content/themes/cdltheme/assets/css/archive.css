@@ -55,10 +55,6 @@ main.alignfull > .alignwide,
   text-underline-offset: 0.15em;
 }
 
-.cdl-archive-query > .wp-block-query-pagination {
-  margin-top: var(--wp--preset--spacing--60);
-}
-
 @media (max-width: 640px) {
   .cdl-archive-item {
     flex-direction: column;
