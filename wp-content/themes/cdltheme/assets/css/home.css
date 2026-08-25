@@ -310,7 +310,11 @@
     flex-direction: column;
   }
 
+  /* Reseta o flex-basis de 280px do desktop: em row ele é uma largura, mas
+     com o header em column (acima) o mesmo valor vira uma ALTURA mínima,
+     criando um vão vazio quando .cdl-latest-carousel__actions está oculto. */
   .cdl-latest-carousel__controls {
+    flex: 1 1 auto;
     max-width: 100%;
   }
 
