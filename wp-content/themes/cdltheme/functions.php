@@ -1041,7 +1041,7 @@ add_action(
 			true
 		);
 
-		if ( is_front_page() || is_home() ) {
+		if ( is_front_page() || is_home() || is_singular( 'post' ) ) {
 			wp_enqueue_style(
 				'cdltheme-home',
 				get_theme_file_uri( 'assets/css/home.css' ),
