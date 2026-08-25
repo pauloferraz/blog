@@ -105,7 +105,7 @@
 
 .cdl-header__nav-item a {
   color: var(--wp--preset--color--gray-text, #4a4a4a);
-  font-size: 0.95rem;
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -139,7 +139,7 @@
   align-items: center;
   color: var(--wp--preset--color--gray-text, #4a4a4a);
   display: inline-flex;
-  font-size: 0.95rem;
+  font-size: 20px;
   gap: 0.4rem;
   text-decoration: none;
 }

@@ -14,6 +14,7 @@
 .cdl-home-hero .is-layout-constrained>.cdl-home-hero__subtitle,
 .cdl-home-hero__content .wp-block-heading,
 .cdl-home-hero__content p {
+  line-height: 120%;
   margin-left: 0 !important;
   margin-right: auto !important;
   max-width: 50% !important;
@@ -59,7 +60,15 @@
 }
 
 .cdl-latest-carousel__desc {
+  color: #777471 !important;
+  font-size: 20px !important;
   line-height: 1.5;
+}
+
+@media (max-width: 781px) {
+  .cdl-latest-carousel__desc {
+    font-size: 16px !important;
+  }
 }
 
 /* Botão Ver todos (pílula) — todos os carrosséis */
@@ -68,9 +77,10 @@
   border: 1px solid currentColor;
   border-radius: 999px;
   color: var(--wp--preset--color--gray-text, #4a4a4a);
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.45rem 1.25rem;
+  font-size: 18px;
+  font-weight: 400;
+  height: 40px;
+  padding-inline: 1.25rem;
   text-decoration: none;
 }
 
@@ -79,9 +89,12 @@
 }
 
 /* Setas em fundos alternativos */
-.cdl-selections-carousel .cdl-carousel__arrow .wp-block-button__link,
 .cdl-radio-carousel .cdl-carousel__arrow .wp-block-button__link {
-  background: var(--wp--preset--color--white, #fff);
+  background: #EAE0D3;
+}
+
+.cdl-selections-carousel .cdl-carousel__arrow .wp-block-button__link {
+  background: #F1F1EB;
 }
 
 .cdl-selections-carousel .cdl-carousel__arrow .wp-block-button__link:hover,
@@ -206,14 +219,20 @@
 }
 
 .cdl-carousel__categories a {
+  font-size: 16px;
   color: inherit;
-  font-weight: 700;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 0.15em;
 }
 
 .cdl-carousel__slide .wp-block-post-title {
+  display: -webkit-box;
   margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .cdl-carousel__slide .wp-block-post-title a {
@@ -232,9 +251,11 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   font-family: var(--wp--preset--font-family--sans);
-  line-height: 1.45;
+  line-height: 120%;
   margin: 0;
   overflow: hidden;
+  color: #2B2B2BA3;
+  font-size: 18px;
 }
 
 .cdl-carousel__slide--radio .cdl-carousel__excerpt,
@@ -323,9 +344,9 @@
 }
 
 .cdl-most-read__intro p {
-  color: var(--wp--preset--color--gray-text, #666);
   font-family: var(--wp--preset--font-family--sans);
-  font-size: var(--wp--preset--font-size--small);
+  color: #2B2B2BA3;
+  font-size: 18px;
   line-height: 1.5;
   margin: 0 0 0.35rem;
 }
@@ -383,14 +404,14 @@
 }
 
 .cdl-most-read__excerpt {
-  color: #777471;
   font-family: var(--wp--preset--font-family--sans);
-  font-size: var(--wp--preset--font-size--small);
+  color: #2B2B2BA3;
+  font-size: 18px;
   grid-column: 2;
   grid-row: 2;
   line-height: 1.55;
-  margin: 0.35rem 0 0 4.5rem;
-  max-width: min(100%, 36rem);
+  margin: 0.35rem 0 0 4rem;
+  max-width: min(100%, 50rem);
 }
 
 .cdl-most-read__empty {

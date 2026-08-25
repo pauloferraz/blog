@@ -2,6 +2,37 @@
  * Tags de post e paginação.
  */
 
+.is-layout-constrained img {
+  max-width: 100%;
+}
+
+.wp-block-post-content p {
+  color: #2B2B2BA3;
+  font-size: 20px;
+  line-height: 120%;
+}
+
+.cdl-single-title {
+  font-size: 38px;
+}
+
+@media (min-width: 782px) {
+  .cdl-more-posts__heading {
+    font-size: 48px;
+  }
+
+  .cdl-single-title {
+    font-size: 64px;
+  }
+}
+
+.cdl-meta__icon {
+  align-items: center;
+  color: currentColor;
+  display: inline-flex;
+  margin-left: 20px !important;
+}
+
 .taxonomy-post_tag.wp-block-post-terms {
   align-items: center;
   display: flex;

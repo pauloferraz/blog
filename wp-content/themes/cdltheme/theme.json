@@ -13,12 +13,12 @@
           "slug": "section-beige"
         },
         {
-          "color": "#f4efe6",
+          "color": "#f1f1eb",
           "name": "Bege",
           "slug": "beige"
         },
         {
-          "color": "#ebe4d8",
+          "color": "#EAE0D3",
           "name": "Bege escuro",
           "slug": "beige-dark"
         },
@@ -28,7 +28,7 @@
           "slug": "navy"
         },
         {
-          "color": "#4a4a4a",
+          "color": "#2B2B2B",
           "name": "Cinza texto",
           "slug": "gray-text"
         },
@@ -60,7 +60,7 @@
       ]
     },
     "layout": {
-      "contentSize": "720px",
+      "contentSize": "1200px",
       "wideSize": "1200px"
     },
     "typography": {
