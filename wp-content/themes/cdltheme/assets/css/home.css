@@ -150,11 +150,19 @@
   outline-offset: 2px;
 }
 
+/* Ações do carrossel no mobile (abaixo dos cards) */
+/* !important necessário: o core injeta "body .is-layout-flex { display:flex }",
+   que tem mais especificidade que uma única classe. */
+.cdl-carousel-mobile-actions {
+  display: none !important;
+}
+
 /* —— Carrossel: viewport e track —— */
 .cdl-carousel__viewport {
   margin: 0;
   overflow: hidden;
   padding: 0;
+  touch-action: pan-y;
   width: 100%;
 }
 
@@ -306,8 +314,22 @@
     max-width: 100%;
   }
 
+  /* No mobile, o CTA e as setas saem do cabeçalho e vão para baixo dos cards */
   .cdl-latest-carousel__actions {
-    justify-content: flex-start;
+    display: none !important;
+  }
+
+  .cdl-carousel-mobile-actions {
+    align-items: center;
+    display: flex !important;
+    justify-content: space-between;
+    margin-top: var(--wp--preset--spacing--50, 1.5rem);
+    width: 100%;
+  }
+
+  .cdl-carousel ul.cdl-carousel__track,
+  .cdl-carousel .wp-block-post-template.cdl-carousel__track {
+    gap: 0;
   }
 }
 

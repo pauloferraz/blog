@@ -62,8 +62,14 @@
 			return mq.matches ? 1 : desktopVisible;
 		}
 
-		var prevBtn = qs(section, '.cdl-carousel__prev .wp-block-button__link') || qs(section, '.cdl-carousel__prev');
-		var nextBtn = qs(section, '.cdl-carousel__next .wp-block-button__link') || qs(section, '.cdl-carousel__next');
+		var prevBtns = qsa(section, '.cdl-carousel__prev .wp-block-button__link');
+		if (prevBtns.length === 0) {
+			prevBtns = qsa(section, '.cdl-carousel__prev');
+		}
+		var nextBtns = qsa(section, '.cdl-carousel__next .wp-block-button__link');
+		if (nextBtns.length === 0) {
+			nextBtns = qsa(section, '.cdl-carousel__next');
+		}
 
 		var page = 0;
 
@@ -113,22 +119,22 @@
 
 		function updateButtons() {
 			var maxP = maxPage();
-			if (prevBtn) {
-				prevBtn.setAttribute('aria-disabled', page <= 0 ? 'true' : 'false');
+			prevBtns.forEach(function (btn) {
+				btn.setAttribute('aria-disabled', page <= 0 ? 'true' : 'false');
 				if (page <= 0) {
-					prevBtn.setAttribute('tabindex', '-1');
+					btn.setAttribute('tabindex', '-1');
 				} else {
-					prevBtn.removeAttribute('tabindex');
+					btn.removeAttribute('tabindex');
 				}
-			}
-			if (nextBtn) {
-				nextBtn.setAttribute('aria-disabled', page >= maxP ? 'true' : 'false');
+			});
+			nextBtns.forEach(function (btn) {
+				btn.setAttribute('aria-disabled', page >= maxP ? 'true' : 'false');
 				if (page >= maxP) {
-					nextBtn.setAttribute('tabindex', '-1');
+					btn.setAttribute('tabindex', '-1');
 				} else {
-					nextBtn.removeAttribute('tabindex');
+					btn.removeAttribute('tabindex');
 				}
-			}
+			});
 		}
 
 		function syncAfterResize() {
@@ -165,16 +171,69 @@
 			syncAfterResize();
 		}
 
+		var touchStartX = 0;
+		var touchCurrentX = 0;
+		var dragging = false;
+
+		function pointerX(event) {
+			if (event.touches && event.touches.length) {
+				return event.touches[0].clientX;
+			}
+			if (event.changedTouches && event.changedTouches.length) {
+				return event.changedTouches[0].clientX;
+			}
+			return 0;
+		}
+
+		function onTouchStart(event) {
+			dragging = true;
+			touchStartX = pointerX(event);
+			touchCurrentX = touchStartX;
+			track.style.transition = 'none';
+		}
+
+		function onTouchMove(event) {
+			if (!dragging) {
+				return;
+			}
+			touchCurrentX = pointerX(event);
+			var delta = touchCurrentX - touchStartX;
+			var offset = page * stepPx();
+			track.style.transform = 'translate3d(' + (-offset + delta) + 'px,0,0)';
+		}
+
+		function onTouchEnd() {
+			if (!dragging) {
+				return;
+			}
+			dragging = false;
+			track.style.transition = '';
+			var delta = touchCurrentX - touchStartX;
+			var threshold = stepPx() * 0.15;
+			if (delta <= -threshold) {
+				go(1);
+			} else if (delta >= threshold) {
+				go(-1);
+			} else {
+				updateTransform();
+			}
+		}
+
 		applyLayout();
 		updateTransform();
 		updateButtons();
 
-		if (prevBtn) {
-			prevBtn.addEventListener('click', onPrev);
-		}
-		if (nextBtn) {
-			nextBtn.addEventListener('click', onNext);
-		}
+		prevBtns.forEach(function (btn) {
+			btn.addEventListener('click', onPrev);
+		});
+		nextBtns.forEach(function (btn) {
+			btn.addEventListener('click', onNext);
+		});
+
+		viewport.addEventListener('touchstart', onTouchStart, { passive: true });
+		viewport.addEventListener('touchmove', onTouchMove, { passive: true });
+		viewport.addEventListener('touchend', onTouchEnd);
+		viewport.addEventListener('touchcancel', onTouchEnd);
 
 		if (typeof mq.addEventListener === 'function') {
 			mq.addEventListener('change', onMqChange);

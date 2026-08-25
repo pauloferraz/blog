@@ -357,6 +357,62 @@ function cdltheme_pre_render_most_read_group( $pre_render, array $parsed_block )
 add_filter( 'pre_render_block', 'cdltheme_pre_render_most_read_group', 8, 2 );
 
 /**
+ * Renderiza os carrosséis da home sempre a partir do pattern do tema, mesmo
+ * quando o bloco já foi "achatado" em core/group (snapshot antigo salvo no
+ * editor, sem a referência wp:pattern que cdltheme_pre_render_dynamic_pattern
+ * intercepta).
+ *
+ * @param string|null $pre_render   HTML pré-renderizado ou null.
+ * @param array       $parsed_block Bloco parseado.
+ */
+function cdltheme_pre_render_carousel_group( $pre_render, array $parsed_block ) {
+	static $rendering = false;
+
+	if ( null !== $pre_render || $rendering ) {
+		return $pre_render;
+	}
+
+	if ( is_admin() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
+		return $pre_render;
+	}
+
+	if ( ( $parsed_block['blockName'] ?? '' ) !== 'core/group' ) {
+		return $pre_render;
+	}
+
+	$class = (string) ( $parsed_block['attrs']['className'] ?? '' );
+	if ( '' === $class ) {
+		return $pre_render;
+	}
+
+	$marker_to_slug = array(
+		'cdl-latest-carousel'     => 'cdltheme/cdl-home-latest-carousel',
+		'cdl-selections-carousel' => 'cdltheme/cdl-home-selections-carousel',
+		'cdl-radio-carousel'      => 'cdltheme/cdl-home-radio-carousel',
+	);
+
+	foreach ( $marker_to_slug as $marker => $slug ) {
+		if ( preg_match( '/\b' . preg_quote( $marker, '/' ) . '\b/', $class ) ) {
+			$rendering = true;
+			$html      = cdltheme_render_pattern_from_file( $slug );
+			$rendering = false;
+
+			return null !== $html ? $html : $pre_render;
+		}
+	}
+
+	return $pre_render;
+}
+/*
+ * Prioridade 20 (não 8): o core registra _wp_add_block_level_preset_styles
+ * em pre_render_block na prioridade 10, e essa função sempre retorna null
+ * (mesmo com um pre_render já definido por um filtro anterior), descartando
+ * silenciosamente qualquer short-circuit feito antes dela. Rodando depois,
+ * garantimos que o nosso valor seja o último e realmente prevaleça.
+ */
+add_filter( 'pre_render_block', 'cdltheme_pre_render_carousel_group', 20, 2 );
+
+/**
  * Garante o bloco "Mais lidas" nos templates de home (tema ou customizado no editor).
  *
  * @param string $content Conteúdo do template.
