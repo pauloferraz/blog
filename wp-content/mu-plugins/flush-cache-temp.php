@@ -1,0 +1,1 @@
+<?php add_action('init', function() { if (isset($_GET['flush_cache_agora']) && $_GET['flush_cache_agora'] === 'sim12345') { wp_cache_flush(); echo 'Cache de objetos limpo com sucesso!'; die(); } }); 
