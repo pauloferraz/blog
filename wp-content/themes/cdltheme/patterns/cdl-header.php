@@ -9,7 +9,9 @@
  * @package cdltheme
  */
 
-$logo_url     = esc_url( get_theme_file_uri( 'assets/logo-cdl.png' ) );
+$site_logo    = cdltheme_get_site_logo();
+$logo_url     = $site_logo['url'];
+$logo_alt     = $site_logo['alt'];
 $nav_icon_url = cdltheme_get_header_image_url( 'cdl-header__nav-icon', $logo_url );
 $home_url     = esc_url( home_url( '/' ) );
 $u_artigos  = cdltheme_category_link( 'artigos' );
@@ -81,7 +83,7 @@ $nav_items = array(
 			<!-- wp:group {"className":"cdl-header__logo","layout":{"type":"constrained"}} -->
 			<div class="wp-block-group cdl-header__logo">
 				<!-- wp:image {"sizeSlug":"full","linkDestination":"custom","width":"200px"} -->
-				<figure class="wp-block-image size-full is-resized"><a href="<?php echo esc_url( $home_url ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr__( 'Companhia das Letras', 'cdltheme' ); ?>" style="width:200px"/></a></figure>
+				<figure class="wp-block-image size-full is-resized"><a href="<?php echo esc_url( $home_url ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr( $logo_alt ); ?>" style="width:200px"/></a></figure>
 				<!-- /wp:image -->
 			</div>
 			<!-- /wp:group -->

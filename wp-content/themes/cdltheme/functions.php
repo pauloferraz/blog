@@ -911,6 +911,40 @@ function cdltheme_find_block_image_url_by_class( array $blocks, string $class_na
 }
 
 /**
+ * Resolve a logo do site definida em Aparência > Personalizar > Identidade do site,
+ * caindo para a logo estática do tema quando nenhuma foi definida.
+ *
+ * @return array{url: string, alt: string} URL e texto alternativo da logo.
+ */
+function cdltheme_get_site_logo(): array {
+	$fallback_url = esc_url( get_theme_file_uri( 'assets/logo-cdl.png' ) );
+	$fallback_alt = __( 'Companhia das Letras', 'cdltheme' );
+
+	if ( ! function_exists( 'has_custom_logo' ) || ! has_custom_logo() ) {
+		return array(
+			'url' => $fallback_url,
+			'alt' => $fallback_alt,
+		);
+	}
+
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+	$logo_url       = wp_get_attachment_image_url( $custom_logo_id, 'full' );
+	if ( ! $logo_url ) {
+		return array(
+			'url' => $fallback_url,
+			'alt' => $fallback_alt,
+		);
+	}
+
+	$logo_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
+
+	return array(
+		'url' => esc_url( $logo_url ),
+		'alt' => $logo_alt ? $logo_alt : $fallback_alt,
+	);
+}
+
+/**
  * Lê imagem editável do template part header salvo no editor (quando existir).
  *
  * @param string $class_name Classe CSS do bloco de imagem.
@@ -1058,6 +1092,15 @@ add_action(
 		add_theme_support( 'wp-block-styles' );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
+		add_theme_support(
+			'custom-logo',
+			array(
+				'height'      => 60,
+				'width'       => 200,
+				'flex-height' => true,
+				'flex-width'  => true,
+			)
+		);
 		add_editor_style( 'assets/css/fonts.css' );
 		add_editor_style( 'assets/css/editor-style.css' );
 		add_editor_style( 'assets/css/home.css' );
