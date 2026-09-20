@@ -354,7 +354,12 @@ function cdltheme_pre_render_most_read_group( $pre_render, array $parsed_block )
 
 	return cdltheme_render_most_read_section();
 }
-add_filter( 'pre_render_block', 'cdltheme_pre_render_most_read_group', 8, 2 );
+/*
+ * Prioridade 20 (não 8): ver nota acima cdltheme_pre_render_carousel_group —
+ * o core sempre retorna null em pre_render_block na prioridade 10, descartando
+ * qualquer short-circuit definido antes dela.
+ */
+add_filter( 'pre_render_block', 'cdltheme_pre_render_most_read_group', 20, 2 );
 
 /**
  * Renderiza os carrosséis da home sempre a partir do pattern do tema, mesmo
