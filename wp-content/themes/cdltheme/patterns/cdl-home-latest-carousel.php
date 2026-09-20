@@ -21,29 +21,25 @@ $posts_url = cdltheme_posts_archive_url();
 		<!-- wp:group {"className":"cdl-latest-carousel__controls","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"right","verticalAlignment":"top"},"style":{"spacing":{"blockGap":"var:preset|spacing|40"}}} -->
 		<div class="wp-block-group cdl-latest-carousel__controls">
 			<!-- wp:paragraph {"className":"cdl-latest-carousel__desc","fontSize":"small","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}},"textColor":"gray-text"} -->
-			<p class="cdl-latest-carousel__desc has-gray-text-color has-text-color has-small-font-size" style="margin-top:0;margin-bottom:0"><?php esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.', 'cdltheme' ); ?></p>
+			<p class="cdl-latest-carousel__desc has-gray-text-color has-text-color has-small-font-size" style="margin-top:0;margin-bottom:0"><?php esc_html_e( 'Acompanhe as novidades, entrevistas, histórias e conteúdos mais recentes sobre nossos livros, autores e o universo da literatura.', 'cdltheme' ); ?></p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:group {"className":"cdl-latest-carousel__actions","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right","verticalAlignment":"center"},"style":{"spacing":{"blockGap":"var:preset|spacing|40"}}} -->
 			<div class="wp-block-group cdl-latest-carousel__actions">
 				<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"right"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
 				<div class="wp-block-buttons">
-					<!-- wp:button {"className":"cdl-carousel__cta is-style-outline","style":{"border":{"width":"1px"}}} -->
+					<!-- wp:button {"className":"cdl-carousel__cta is-style-outline"} -->
 					<div class="wp-block-button cdl-carousel__cta is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( $posts_url ); ?>"><?php esc_html_e( 'Ver todos', 'cdltheme' ); ?></a></div>
 					<!-- /wp:button -->
 				</div>
 				<!-- /wp:buttons -->
 
-				<!-- wp:buttons {"className":"cdl-carousel__arrows","layout":{"type":"flex","justifyContent":"right","flexWrap":"nowrap"},"style":{"spacing":{"blockGap":"8px"}}} -->
+				<!-- wp:html -->
 				<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'cdltheme' ); ?>">
-					<!-- wp:button {"className":"cdl-carousel__arrow cdl-carousel__prev is-style-fill","style":{"border":{"radius":"999px"}}} -->
 					<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev is-style-fill"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Posts anteriores', 'cdltheme' ); ?>" aria-disabled="true">←</a></div>
-					<!-- /wp:button -->
-					<!-- wp:button {"className":"cdl-carousel__arrow cdl-carousel__next is-style-fill","style":{"border":{"radius":"999px"}}} -->
 					<div class="wp-block-button cdl-carousel__arrow cdl-carousel__next is-style-fill"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Próximos posts', 'cdltheme' ); ?>">→</a></div>
-					<!-- /wp:button -->
 				</div>
-				<!-- /wp:buttons -->
+				<!-- /wp:html -->
 			</div>
 			<!-- /wp:group -->
 		</div>
@@ -84,22 +80,18 @@ $posts_url = cdltheme_posts_archive_url();
 	<div class="wp-block-group cdl-carousel-mobile-actions">
 		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"left"},"style":{"spacing":{"blockGap":"var:preset|spacing|30"}}} -->
 		<div class="wp-block-buttons">
-			<!-- wp:button {"className":"cdl-carousel__cta is-style-outline","style":{"border":{"width":"1px"}}} -->
+			<!-- wp:button {"className":"cdl-carousel__cta is-style-outline"} -->
 			<div class="wp-block-button cdl-carousel__cta is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( $posts_url ); ?>"><?php esc_html_e( 'Ver todos', 'cdltheme' ); ?></a></div>
 			<!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->
 
-		<!-- wp:buttons {"className":"cdl-carousel__arrows","layout":{"type":"flex","justifyContent":"right","flexWrap":"nowrap"},"style":{"spacing":{"blockGap":"8px"}}} -->
+		<!-- wp:html -->
 		<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'cdltheme' ); ?>">
-			<!-- wp:button {"className":"cdl-carousel__arrow cdl-carousel__prev is-style-fill","style":{"border":{"radius":"999px"}}} -->
 			<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev is-style-fill"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Posts anteriores', 'cdltheme' ); ?>" aria-disabled="true">←</a></div>
-			<!-- /wp:button -->
-			<!-- wp:button {"className":"cdl-carousel__arrow cdl-carousel__next is-style-fill","style":{"border":{"radius":"999px"}}} -->
 			<div class="wp-block-button cdl-carousel__arrow cdl-carousel__next is-style-fill"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Próximos posts', 'cdltheme' ); ?>">→</a></div>
-			<!-- /wp:button -->
 		</div>
-		<!-- /wp:buttons -->
+		<!-- /wp:html -->
 	</div>
 	<!-- /wp:group -->
 </div>

@@ -24,7 +24,7 @@ $social_yt = cdltheme_social_href( 'cdltheme_social_youtube' );
 		<!-- wp:group {"className":"cdl-footer__brand","layout":{"type":"constrained"}} -->
 		<div class="wp-block-group cdl-footer__brand">
 			<!-- wp:image {"sizeSlug":"full","linkDestination":"custom","width":"180px","className":"cdl-footer__logo"} -->
-			<figure class="wp-block-image size-full is-resized cdl-footer__logo"><a href="<?php echo esc_url( $home_url ); ?>" aria-label="<?php echo esc_attr__( 'Companhia das Letras', 'cdltheme' ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="" style="width:180px" decoding="async" loading="lazy" /></a></figure>
+			<figure class="wp-block-image size-full is-resized cdl-footer__logo"><a href="<?php echo esc_url( $home_url ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr__( 'Companhia das Letras', 'cdltheme' ); ?>" style="width:180px"/></a></figure>
 			<!-- /wp:image -->
 		</div>
 		<!-- /wp:group -->

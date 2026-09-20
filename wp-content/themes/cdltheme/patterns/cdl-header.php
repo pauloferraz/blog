@@ -81,7 +81,7 @@ $nav_items = array(
 			<!-- wp:group {"className":"cdl-header__logo","layout":{"type":"constrained"}} -->
 			<div class="wp-block-group cdl-header__logo">
 				<!-- wp:image {"sizeSlug":"full","linkDestination":"custom","width":"200px"} -->
-				<figure class="wp-block-image size-full is-resized"><a href="<?php echo esc_url( $home_url ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr__( 'Companhia das Letras', 'cdltheme' ); ?>" style="width:200px" decoding="async" loading="eager" /></a></figure>
+				<figure class="wp-block-image size-full is-resized"><a href="<?php echo esc_url( $home_url ); ?>"><img src="<?php echo esc_url( $logo_url ); ?>" alt="<?php echo esc_attr__( 'Companhia das Letras', 'cdltheme' ); ?>" style="width:200px"/></a></figure>
 				<!-- /wp:image -->
 			</div>
 			<!-- /wp:group -->
@@ -140,7 +140,7 @@ $nav_items = array(
 				<!-- wp:group {"className":"cdl-header__external cdl-header__external--cdl","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
 				<div class="wp-block-group cdl-header__external cdl-header__external--cdl">
 					<!-- wp:image {"sizeSlug":"full","linkDestination":"none","width":"22px","className":"cdl-header__nav-icon"} -->
-					<figure class="wp-block-image size-full is-resized cdl-header__nav-icon"><img src="<?php echo esc_url( $nav_icon_url ); ?>" alt="" decoding="async" /></figure>
+					<figure class="wp-block-image size-full is-resized cdl-header__nav-icon"><img src="<?php echo esc_url( $nav_icon_url ); ?>" alt="" style="width:22px"/></figure>
 					<!-- /wp:image -->
 					<!-- wp:paragraph -->
 					<p><a href="<?php echo esc_url( $u_cdl ); ?>"><?php echo esc_html__( 'Companhia das Letras', 'cdltheme' ); ?></a></p>

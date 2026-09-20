@@ -13,11 +13,11 @@
 	<!-- wp:group {"align":"wide","className":"cdl-home-hero__content","layout":{"type":"constrained"}} -->
 	<div class="wp-block-group alignwide cdl-home-hero__content">
 		<!-- wp:heading {"level":1,"fontFamily":"serif","fontSize":"display","style":{"typography":{"fontWeight":"700","lineHeight":"1.15"}},"textColor":"gray-text"} -->
-		<h1 class="wp-block-heading has-gray-text-color has-text-color has-serif-font-family has-display-font-size" style="font-weight:700;line-height:1.15"><?php esc_html_e( 'Lorem ipsum dolor sit amet consectetur', 'cdltheme' ); ?></h1>
+		<h1 class="wp-block-heading has-gray-text-color has-text-color has-serif-font-family has-display-font-size" style="font-weight:700;line-height:1.15"><?php esc_html_e( 'Bem-vindo ao Blog da Companhia', 'cdltheme' ); ?></h1>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"className":"cdl-home-hero__subtitle","fontSize":"medium","style":{"spacing":{"margin":{"top":"var:preset|spacing|50"}}},"textColor":"gray-text"} -->
-		<p class="cdl-home-hero__subtitle has-gray-text-color has-text-color has-medium-font-size" style="margin-top:var(--wp--preset--spacing--50)"><?php esc_html_e( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.', 'cdltheme' ); ?></p>
+		<p class="cdl-home-hero__subtitle has-gray-text-color has-text-color has-medium-font-size" style="margin-top:var(--wp--preset--spacing--50)"><?php esc_html_e( 'Um espaço para descobrir histórias, autores e ideias. Encontre entrevistas, ensaios, novidades, bastidores e conteúdos para ampliar suas leituras e conhecer ainda mais o universo dos nossos livros.', 'cdltheme' ); ?></p>
 		<!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
