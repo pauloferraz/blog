@@ -1,0 +1,418 @@
+/**
+ * Home: carrosséis e seções de destaque.
+ */
+
+/* Only "Seleções da Companhia" has its own background; the rest blend with the page. */
+.cdl-selections-carousel {
+  background-color: var(--wp--preset--color--selections);
+}
+
+.cdl-carousel-section__inner {
+  width: 100%;
+  max-width: var(--wp--style--global--wide-size, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 781px) {
+  /* O padding é definido inline no PHP; !important é necessário para
+	   sobrescrever no mobile. */
+  .cdl-carousel-section {
+    padding: var(--wp--preset--spacing--30) !important;
+  }
+
+  .cdl-hero {
+    padding-left: var(--wp--preset--spacing--30);
+    padding-right: var(--wp--preset--spacing--30);
+  }
+}
+
+/* —— Mais lidos: lista numerada (sem carrossel) —— */
+.cdl-most-read__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--30);
+}
+
+.cdl-most-read__heading {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--x-large);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cdl-most-read__intro {
+  flex: 1 1 16rem;
+  max-width: min(100%, 36rem);
+  text-align: right;
+}
+
+.cdl-most-read__intro p {
+  margin: 0 0 0.35rem;
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.65;
+  font-size: var(--wp--preset--font-size--medium);
+  line-height: 1.5;
+}
+
+.cdl-most-read__intro p:last-child {
+  margin-bottom: 0;
+}
+
+.cdl-most-read__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cdl-most-read__item {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  padding: var(--wp--preset--spacing--50) 0;
+}
+
+.cdl-most-read__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: var(--wp--preset--spacing--40);
+  row-gap: 0.35rem;
+}
+
+.cdl-most-read__num {
+  grid-column: 1;
+  grid-row: 1;
+  color: var(--wp--preset--color--navy);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cdl-most-read__title {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  font-size: var(--wp--preset--font-size--large);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cdl-most-read__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cdl-most-read__title a:hover {
+  color: var(--wp--preset--color--navy);
+}
+
+.cdl-most-read__excerpt {
+  margin: 0.35rem 0 0 4rem;
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.65;
+  font-size: var(--wp--preset--font-size--small);
+  line-height: 1.55;
+  max-width: min(100%, 50rem);
+}
+
+.cdl-most-read__empty {
+  margin: 0;
+  opacity: 0.7;
+}
+
+@media (max-width: 781px) {
+  .cdl-most-read__header {
+    flex-direction: column;
+  }
+
+  .cdl-most-read__intro {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .cdl-most-read__excerpt {
+    margin-left: 0;
+  }
+}
+
+.cdl-carousel__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--wp--preset--spacing--30);
+  margin-bottom: var(--wp--preset--spacing--50);
+}
+
+@media (min-width: 782px) {
+  .cdl-carousel__header {
+    margin-bottom: var(--wp--preset--spacing--40);
+  }
+}
+
+.cdl-carousel__heading {
+  margin: 0;
+  font-size: var(--wp--preset--font-size--x-large);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cdl-carousel__controls {
+  display: flex;
+  flex: 1 1 280px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  max-width: min(100%, 36rem);
+  text-align: right;
+}
+
+.cdl-carousel__desc {
+  margin: 0;
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.7;
+  font-size: var(--wp--preset--font-size--medium);
+  line-height: 1.5;
+}
+
+.cdl-carousel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--wp--preset--spacing--30);
+}
+
+/* Botão "Ver todos" (pílula) */
+.cdl-carousel__cta .wp-block-button__link {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: var(--wp--preset--font-size--medium);
+  text-decoration: none;
+}
+
+.cdl-carousel__cta .wp-block-button__link:hover {
+  opacity: 0.75;
+}
+
+/* Setas do carrossel */
+.cdl-carousel__arrows {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cdl-carousel__arrow {
+  margin: 0;
+}
+
+.cdl-carousel__arrow .wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--contrast);
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.cdl-carousel__arrow .wp-block-button__link:hover {
+  background: var(--wp--preset--color--contrast);
+  color: var(--wp--preset--color--base);
+}
+
+.cdl-carousel__arrow .wp-block-button__link[aria-disabled="true"] {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.cdl-carousel__arrow .wp-block-button__link:focus-visible {
+  outline: 2px solid var(--wp--preset--color--contrast);
+  outline-offset: 2px;
+}
+
+/* Ações do carrossel no mobile (abaixo dos cards) */
+.cdl-carousel-mobile-actions {
+  display: none !important;
+}
+
+/* Viewport e track */
+.cdl-carousel__viewport {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.cdl-carousel__track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--cdl-carousel-gap, var(--wp--preset--spacing--30));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: transform 0.35s ease;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cdl-carousel__track {
+    transition: none;
+  }
+}
+
+.cdl-carousel__track > li {
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: var(--cdl-slide-width, 33.333%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cdl-carousel__slide {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  text-align: left;
+}
+
+.cdl-carousel__thumb {
+  display: block;
+}
+
+.cdl-carousel__thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.cdl-carousel__categories {
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: 500;
+}
+
+.cdl-carousel__categories a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.cdl-carousel__title {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  font-size: var(--wp--preset--font-size--large);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cdl-carousel__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cdl-carousel__title a:hover {
+  opacity: 0.8;
+}
+
+.cdl-carousel__excerpt,
+.cdl-carousel__excerpt p {
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.65;
+  font-size: var(--wp--preset--font-size--small);
+  line-height: 1.5;
+}
+
+.cdl-carousel__empty {
+  margin: 0;
+  opacity: 0.7;
+}
+
+/* Botões Spotify / YouTube (Rádio Companhia) */
+.cdl-carousel__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 0;
+}
+
+.cdl-carousel__links .wp-block-button {
+  margin: 0;
+}
+
+.cdl-carousel__link-btn .wp-block-button__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: var(--wp--preset--font-size--medium);
+  text-decoration: none;
+}
+
+.cdl-carousel__link-btn .wp-block-button__link:hover {
+  opacity: 0.75;
+}
+
+.cdl-carousel__link-btn .wp-block-button__link::after {
+  content: "↗";
+  font-size: 0.85em;
+  line-height: 1;
+}
+
+@media (max-width: 781px) {
+  .cdl-carousel__header {
+    flex-direction: column;
+  }
+
+  .cdl-carousel__controls {
+    flex: initial;
+    align-items: flex-start;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .cdl-carousel__actions {
+    display: none !important;
+  }
+
+  .cdl-carousel-mobile-actions {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: var(--wp--preset--spacing--40);
+  }
+
+  .cdl-carousel__track {
+    gap: 0;
+  }
+}

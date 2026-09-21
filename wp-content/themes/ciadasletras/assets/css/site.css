@@ -1,0 +1,311 @@
+/**
+ * Estilos globais do tema (carregados em todas as páginas).
+ */
+
+/* Listagem de categorias/arquivo: imagem à esquerda, conteúdo à direita. */
+.cdl-archive-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wp--preset--spacing--20);
+}
+
+.cdl-archive-item {
+  align-items: flex-start;
+  gap: var(--wp--preset--spacing--50);
+}
+
+.cdl-archive-item__image {
+  flex: 0 0 25%;
+  margin: 0;
+}
+
+.cdl-archive-item__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cdl-archive-item__body {
+  flex: 1 1 auto;
+}
+
+.cdl-archive-item__body .wp-block-post-title {
+  margin: 0;
+}
+
+.cdl-archive-item__body .wp-block-post-excerpt,
+.cdl-archive-item__body .wp-block-post-date {
+  margin: 0;
+}
+
+.cdl-archive-item__body .wp-block-post-excerpt {
+  font-size: 18px;
+}
+
+.cdl-archive-item__body .wp-block-post-date {
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.65;
+  font-size: var(--wp--preset--font-size--small);
+}
+
+@media (max-width: 781px) {
+  .cdl-archive-item {
+    flex-direction: column;
+  }
+
+  .cdl-archive-item__image {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .cdl-archive,
+  .cdl-post-page {
+    padding-left: var(--wp--preset--spacing--30);
+    padding-right: var(--wp--preset--spacing--30);
+  }
+}
+
+/* Página de post: título/meta e conteúdo devem ocupar a largura "wide" (1200px)
+   centralizada — o .alignwide sozinho não centraliza quando o grupo pai não
+   tem uma regra de layout específica gerada (mesmo caso do carrossel da home). */
+.cdl-post-wide {
+  width: 100%;
+  max-width: var(--wp--style--global--wide-size, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tags no final do post: pílulas com contorno. */
+.cdl-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cdl-post-tags a {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 1.25rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  color: inherit;
+  font-size: var(--wp--preset--font-size--small);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cdl-post-tags a:hover {
+  opacity: 0.75;
+}
+
+/* Autor, data e categoria abaixo do título do post: texto discreto. */
+.cdl-post-meta {
+  color: var(--wp--preset--color--contrast);
+  opacity: 0.65;
+}
+
+.cdl-post-meta a {
+  color: inherit;
+}
+
+/* h2 usados como link dentro do conteúdo do post: menores e azuis. */
+.wp-block-post-content h2 > a {
+  font-size: var(--wp--preset--font-size--large);
+  color: var(--wp--preset--color--navy);
+}
+
+/* O logotipo é escuro por padrão; no rodapé (fundo navy) ele é invertido para branco. */
+.cdl-footer-logo img {
+  filter: brightness(0) invert(1);
+}
+
+/* Ícones sociais do footer: imagens próprias, tamanho consistente entre elas. */
+.cdl-footer-social {
+  margin: 0;
+}
+
+.cdl-footer-social__icon {
+  margin: 0;
+}
+
+.cdl-footer-social__icon img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.cdl-footer-text {
+  font-size: 14px;
+}
+
+/* Logo e texto lado a lado no desktop, marca à esquerda e redes sociais à
+   direita; no mobile tudo empilha e fica centralizado. */
+@media (max-width: 781px) {
+  .cdl-footer-row,
+  .cdl-footer-social {
+    justify-content: center;
+  }
+
+  .cdl-footer-brand {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Header: logo + busca numa linha, divisória, depois a navegação — no mobile
+   vira logo centralizado em cima, com o hambúrguer e a busca lado a lado
+   embaixo (a mesma marcação, só reorganizada via grid-template-areas). */
+.cdl-header-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "logo search"
+    "sep sep"
+    "nav nav";
+  align-items: center;
+  column-gap: var(--wp--preset--spacing--20);
+  row-gap: var(--wp--preset--spacing--30);
+}
+
+.cdl-header-logo {
+  grid-area: logo;
+  justify-self: start;
+}
+
+/* O WordPress só oferece um ícone de 2 linhas por padrão; desenhamos as
+   3 linhas do hambúrguer via CSS em vez do SVG nativo do bloco. */
+.cdl-header-nav .wp-block-navigation__responsive-container-open svg {
+  display: none;
+}
+
+.cdl-header-nav .wp-block-navigation__responsive-container-open {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+}
+
+.cdl-header-nav .wp-block-navigation__responsive-container-open::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 1.5px;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 -6px 0 currentColor,
+    0 6px 0 currentColor;
+}
+
+.cdl-header-search {
+  grid-area: search;
+  width: 100%;
+  min-width: 0;
+}
+
+.cdl-header-separator {
+  grid-area: sep;
+  width: 100%;
+}
+
+.cdl-header-nav {
+  grid-area: nav;
+}
+
+@media (max-width: 781px) {
+  .cdl-header-grid {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "logo logo"
+      "nav search";
+    row-gap: 1rem;
+  }
+
+  .cdl-header-logo {
+    justify-self: center;
+  }
+
+  .cdl-header-separator {
+    display: none;
+  }
+
+  .cdl-header-search .wp-block-search__input {
+    min-width: 0;
+  }
+}
+
+/* Linha divisória do header entre as duas linhas (logo/busca e navegação). */
+.cdl-header-separator {
+  border-top-width: 1px;
+}
+
+/* Sempre que a Silva Text (serif) for usada, o peso deve ser 600. */
+.has-serif-font-family {
+  font-weight: 600;
+}
+
+/* Precisa ocupar a linha toda para o "empurra para a direita" (margin-left:
+   auto no item marcador) ter espaço de sobra para funcionar. */
+.cdl-header-nav {
+  width: 100%;
+}
+
+/* Ícone da bicicleta antes do link "Companhia das Letras". */
+.cdl-nav-secondary-start .wp-block-navigation-item__content::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 13px;
+  margin-right: 0.4em;
+  vertical-align: middle;
+  background: url("../images/bicicleta.png") no-repeat center / contain;
+}
+
+/* Busca do header: pílula preenchida por inteiro (fundo, sem borda), sem o
+   quadrado de destaque no botão do ícone. */
+.cdl-header-search .wp-block-search__inside-wrapper {
+  background-color: var(--wp--preset--color--selections);
+  border: none;
+}
+
+.cdl-header-search .wp-block-search__input {
+  padding: 0 4px 0 14px;
+  font-size: 16px;
+  background: transparent;
+  color: var(--wp--preset--color--contrast);
+}
+
+.cdl-header-search .wp-block-search__button {
+  padding: 6px 10px !important;
+  background: transparent !important;
+  color: var(--wp--preset--color--contrast);
+}
+
+/* Menu de navegação do header: 18px no desktop. */
+@media (min-width: 782px) {
+  .cdl-header-nav {
+    font-size: 18px;
+  }
+
+  /* Empurra o segundo grupo de links (a partir do primeiro item marcado)
+	   para a direita, mantendo tudo num único wp:navigation/menu mobile. */
+  .cdl-header-nav .cdl-nav-secondary-start {
+    margin-left: auto;
+  }
+
+  .cdl-hero__subtitle {
+    font-size: 18px;
+  }
+
+  .cdl-header-search {
+    max-width: 330px;
+    justify-self: end;
+  }
+}
