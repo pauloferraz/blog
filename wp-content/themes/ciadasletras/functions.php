@@ -323,8 +323,7 @@ function ciadasletras_render_most_read_carousel_section(): string {
 			<h2 class="cdl-most-read__heading"><?php esc_html_e( 'Mais lidos', 'ciadasletras' ); ?></h2>
 
 			<div class="cdl-most-read__intro">
-				<p><?php esc_html_e( 'Acompanhe as novidades, entrevistas e histórias mais relevantes sobre nossos livros e autores.', 'ciadasletras' ); ?></p>
-				<p><?php esc_html_e( 'Uma seleção com base no que mais interessa aos leitores da Companhia das Letras.', 'ciadasletras' ); ?></p>
+				<p><?php esc_html_e( 'Descubra os posts mais lidos do Blog da Companhia e explore histórias sobre livros, autores e literatura.', 'ciadasletras' ); ?></p>
 			</div>
 		</div>
 
@@ -412,7 +411,7 @@ function ciadasletras_render_recent_carousel_section(): string {
 		ciadasletras_get_recent_posts( 9 ),
 		array(
 			'marker_class'  => 'cdl-recent-carousel',
-			'heading'       => __( 'Mais recentes', 'ciadasletras' ),
+			'heading'       => __( 'Últimos posts', 'ciadasletras' ),
 			'description'   => __( 'Acompanhe as novidades, entrevistas, histórias e conteúdos mais recentes sobre nossos livros, autores e o universo da literatura.', 'ciadasletras' ),
 			'empty_message' => __( 'Nenhum post publicado ainda.', 'ciadasletras' ),
 			'prev_label'    => __( 'Posts anteriores', 'ciadasletras' ),
@@ -658,13 +657,9 @@ function ciadasletras_render_selections_carousel_section(): string {
 		<h2 class="cdl-carousel__heading"><?php esc_html_e( 'Seleções da Companhia', 'ciadasletras' ); ?></h2>
 
 		<div class="cdl-carousel__controls">
-			<p class="cdl-carousel__desc"><?php esc_html_e( 'Curadorias e recomendações especiais preparadas pela Companhia das Letras para você explorar.', 'ciadasletras' ); ?></p>
+			<p class="cdl-carousel__desc"><?php esc_html_e( 'Livros escolhidos pela Companhia para você descobrir novas histórias e encontrar sua próxima leitura.', 'ciadasletras' ); ?></p>
 
 			<div class="cdl-carousel__actions">
-				<div class="wp-block-buttons">
-					<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
-				</div>
-
 				<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'ciadasletras' ); ?>">
 					<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Seleções anteriores', 'ciadasletras' ); ?>" aria-disabled="true">←</a></div>
 					<div class="wp-block-button cdl-carousel__arrow cdl-carousel__next"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Próximas seleções', 'ciadasletras' ); ?>">→</a></div>
@@ -717,10 +712,6 @@ function ciadasletras_render_selections_carousel_section(): string {
 	<?php endif; ?>
 
 	<div class="cdl-carousel-mobile-actions">
-		<div class="wp-block-buttons">
-			<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
-		</div>
-
 		<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'ciadasletras' ); ?>">
 			<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Seleções anteriores', 'ciadasletras' ); ?>" aria-disabled="true">←</a></div>
 			<div class="wp-block-button cdl-carousel__arrow cdl-carousel__next"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr__( 'Próximas seleções', 'ciadasletras' ); ?>">→</a></div>

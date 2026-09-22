@@ -2,6 +2,11 @@
  * Estilos globais do tema (carregados em todas as páginas).
  */
 
+/* Remove o espaço padrão (blockGap raiz) entre o <main> e o footer da home. */
+.wp-site-blocks > footer.wp-block-template-part {
+  margin-block-start: 0;
+}
+
 /* Listagem de categorias/arquivo: imagem à esquerda, conteúdo à direita. */
 .cdl-archive-list {
   display: flex;
