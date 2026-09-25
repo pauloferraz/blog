@@ -205,6 +205,7 @@ function ciadasletras_get_most_read_posts( int $count = 9 ): array {
  *     @type string $empty_message Mensagem exibida quando não há posts.
  *     @type string $prev_label   Rótulo acessível da seta "anterior".
  *     @type string $next_label   Rótulo acessível da seta "próximo".
+ *     @type bool   $show_cta     Exibe o botão "Ver todos" (padrão: true).
  * }
  */
 function ciadasletras_render_post_carousel_section( array $posts, array $args ): string {
@@ -214,6 +215,7 @@ function ciadasletras_render_post_carousel_section( array $posts, array $args ):
 	$empty_message = $args['empty_message'];
 	$prev_label    = $args['prev_label'];
 	$next_label    = $args['next_label'];
+	$show_cta      = $args['show_cta'] ?? true;
 
 	ob_start();
 	?>
@@ -226,9 +228,11 @@ function ciadasletras_render_post_carousel_section( array $posts, array $args ):
 			<p class="cdl-carousel__desc"><?php echo esc_html( $description ); ?></p>
 
 			<div class="cdl-carousel__actions">
-				<div class="wp-block-buttons">
-					<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
-				</div>
+				<?php if ( $show_cta ) : ?>
+					<div class="wp-block-buttons">
+						<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
+					</div>
+				<?php endif; ?>
 
 				<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'ciadasletras' ); ?>">
 					<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr( $prev_label ); ?>" aria-disabled="true">←</a></div>
@@ -290,9 +294,11 @@ function ciadasletras_render_post_carousel_section( array $posts, array $args ):
 	<?php endif; ?>
 
 	<div class="cdl-carousel-mobile-actions">
-		<div class="wp-block-buttons">
-			<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
-		</div>
+		<?php if ( $show_cta ) : ?>
+			<div class="wp-block-buttons">
+				<div class="wp-block-button cdl-carousel__cta"><a class="wp-block-button__link wp-element-button" href="#"><?php esc_html_e( 'Ver todos', 'ciadasletras' ); ?></a></div>
+			</div>
+		<?php endif; ?>
 
 		<div class="wp-block-buttons cdl-carousel__arrows" role="group" aria-label="<?php echo esc_attr__( 'Navegação do carrossel', 'ciadasletras' ); ?>">
 			<div class="wp-block-button cdl-carousel__arrow cdl-carousel__prev"><a class="wp-block-button__link wp-element-button" href="#" aria-label="<?php echo esc_attr( $prev_label ); ?>" aria-disabled="true">←</a></div>
@@ -416,6 +422,7 @@ function ciadasletras_render_recent_carousel_section(): string {
 			'empty_message' => __( 'Nenhum post publicado ainda.', 'ciadasletras' ),
 			'prev_label'    => __( 'Posts anteriores', 'ciadasletras' ),
 			'next_label'    => __( 'Próximos posts', 'ciadasletras' ),
+			'show_cta'      => false,
 		)
 	);
 }
