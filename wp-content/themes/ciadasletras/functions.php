@@ -389,6 +389,31 @@ function ciadasletras_refresh_most_read_carousel_html( string $block_content ): 
 add_filter( 'render_block_core/html', 'ciadasletras_refresh_most_read_carousel_html' );
 
 /**
+ * Remove a linha "Por NOME_DO_AUTOR" do post meta quando o autor do post
+ * não tem nome cadastrado (ou não existe mais).
+ *
+ * @param string $block_content HTML já renderizado do bloco.
+ * @param array  $block         Dados do bloco.
+ */
+function ciadasletras_hide_empty_post_author( string $block_content, array $block ): string {
+	$class_name = $block['attrs']['className'] ?? '';
+
+	if ( ! in_array( 'cdl-post-meta__author', explode( ' ', $class_name ), true ) ) {
+		return $block_content;
+	}
+
+	$post = get_post();
+	if ( ! $post ) {
+		return $block_content;
+	}
+
+	$author_name = trim( (string) get_the_author_meta( 'display_name', (int) $post->post_author ) );
+
+	return '' === $author_name ? '' : $block_content;
+}
+add_filter( 'render_block_core/group', 'ciadasletras_hide_empty_post_author', 10, 2 );
+
+/**
  * Até N posts publicados, dos mais recentes para os mais antigos.
  *
  * @param int $count Quantidade desejada.
